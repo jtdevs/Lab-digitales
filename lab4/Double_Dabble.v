@@ -2,13 +2,13 @@
  * unsigned_to_bcd.v
  * 2017/04/18 - Felipe Veas <felipe.veasv [at] usm.cl>
  *
- * Este m骴ulo es una implementaci髇 del algoritmo double dabble,
- * comienza a convertir un n鷐ero en binario cuando recibe un pulso
- * en su entrada 'trigger'. La salida idle pasa a LOW si el m骴ulo se
- * encuentra realizando una conversi髇.
+ * Este m贸dulo es una implementaci贸n del algoritmo double dabble,
+ * comienza a convertir un n煤mero en binario cuando recibe un pulso
+ * en su entrada 'trigger'. La salida idle pasa a LOW si el m贸dulo se
+ * encuentra realizando una conversi贸n.
  */
 
-// -- Plantilla de instanciaci髇
+// -- Plantilla de instanciaci贸n
 //	unsigned_to_bcd u32_to_bcd_inst (
 //		.clk(clk),
 //		.trigger(trigger),
@@ -22,15 +22,15 @@
 module double_dabble
 (
 	input clk,            // Reloj
-	input trigger,        // Inicio de conversi髇
-	input [31:0] in,      // N鷐ero binario de entrada
-	output reg idle,      // Si vale 0, indica una conversi髇 en proceso
-	output reg [31:0] bcd // Resultado de la conversi髇
+	input trigger,        // Inicio de conversi贸n
+	input [31:0] in,      // N煤mero binario de entrada
+	output reg idle,      // Si vale 0, indica una conversi贸n en proceso
+	output reg [31:0] bcd // Resultado de la conversi贸n
 );
 
 	/*
-	 * Por "buenas pr醕ticas" parametrizamos las constantes num閞icas de los estados
-	 * del m骴ulo y evitamos trabajar con n鷐eros "m醙icos" en el resto del c骴igo.
+	 * Por "buenas pr谩cticas" parametrizamos las constantes num茅ricas de los estados
+	 * del m贸dulo y evitamos trabajar con n煤meros "m谩gicos" en el resto del c贸digo.
 	 *
 	 * https://en.wikipedia.org/wiki/Magic_number_(programming)
 	 * http://stackoverflow.com/questions/47882/what-is-a-magic-number-and-why-is-it-bad
@@ -50,7 +50,7 @@ module double_dabble
 	always @(*) begin
 		/*
 		 * Por defecto, los estados futuros mantienen el estado actual. Esto nos
-		 * ayuda a no tener que ir definiendo cada uno de los valores de las se馻les
+		 * ayuda a no tener que ir definiendo cada uno de los valores de las se帽ales
 		 * en cada estado posible.
 		 */
 		state_next = state;
@@ -106,7 +106,7 @@ module double_dabble
 			shift_next = {shift[30:0], in[COUNTER_MAX - counter_next]};
 
 			/*
-			 * Si el contador actual alcanza la cuenta m醲ima, actualizamos la salida y
+			 * Si el contador actual alcanza la cuenta m谩xima, actualizamos la salida y
 			 * terminamos el proceso.
 			 */
 			if (counter == COUNTER_MAX) begin
