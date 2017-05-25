@@ -28,7 +28,7 @@ module pwm(
             CLK_20 = 1'b0;
     end
     
-    always@(*) begin               //entonces si duty es 0, la señal sera CLK_5 que esta dependera de CLK100MHZ
+    always@(*) begin               //entonces si duty es 0, la seÃ±al sera CLK_5 que esta dependera de CLK100MHZ
         if (duty == 1'b0)
             signal = CLK_5;
         else
