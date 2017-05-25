@@ -84,10 +84,10 @@ module display(
 
     double_dabble dd_inst(
         .clk(clk_100mhz),            // Reloj
-        .trigger(1'b1),        // Inicio de conversión
-        .in(num),      // Número binario de entrada
-        .idle(),      // Si vale 0, indica una conversión en proceso
-        .bcd(_bcd) // Resultado de la conversión
+        .trigger(1'b1),        // Inicio de conversiÃ³n
+        .in(num),      // NÃºmero binario de entrada
+        .idle(),      // Si vale 0, indica una conversiÃ³n en proceso
+        .bcd(_bcd) // Resultado de la conversiÃ³n
     );
 endmodule
 
