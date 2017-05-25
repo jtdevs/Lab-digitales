@@ -26,7 +26,7 @@ module top_module(
 
 	wire [15:0] operador1, operador2;//salida del modulo de retencion de valores (FDCE)
 	wire [3:0] operacion;//salida del modulo de retencion de valores (FDCE)
-	reg retain_op1, retain_op2, retain_op;//controlan la retención o no de cada valor
+	reg retain_op1, retain_op2, retain_op;//controlan la retenciÃ³n o no de cada valor
 	
 	reg [31:0] mostrar;//lo que actualmente se muestra en el display
 	
