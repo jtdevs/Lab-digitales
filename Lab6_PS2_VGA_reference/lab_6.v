@@ -1,8 +1,5 @@
 module lab_6(
 	input CLK100MHZ,
-	input [15:0]SW,
-	input PS2_CLK,
-	input PS2_DATA,
 	//input rst,
 	output VGA_HS,
 	output VGA_VS,
@@ -29,16 +26,8 @@ module lab_6(
 		// Clock in ports
 		.clk_in1(CLK100MHZ)
 	);
-	wire kbs_tot;
-    wire [7:0] data;
-    wire [2:0] data_type;
-    wire parity_error;	
 	driver_vga_1024x768 m_driver(CLK82MHZ, VGA_HS, VGA_VS, hc_visible, vc_visible);
-	kbd_ms m_kd(CLK82MHZ, 1'b0, PS2_DATA, PS2_CLK, data, data_type, kbs_tot, parity_error);
-	
-	
-	
-	
+
 	wire [10:0]hc_template, vc_template;
 	wire [2:0]matrix_x;
 	wire [1:0]matrix_y;
@@ -57,7 +46,7 @@ module lab_6(
 			if(dr == 1'b1)
 				VGA_COLOR = {12'h555};
 			else if (in_sq == 1'b1)
-				VGA_COLOR = {12'hFFFF};
+				VGA_COLOR = {12'hFFF};
 			else if((hc_visible > CUADRILLA_XI) && (hc_visible <= CUADRILLA_XF) && (vc_visible > CUADRILLA_YI) && (vc_visible <= CUADRILLA_YF))
 				if(lines)
 					VGA_COLOR = {12'h000};

@@ -15,7 +15,7 @@ module previa_6_1(
 	assign JA8 = (data == 8'h5A); // is_enter
 
 	kbd_ms m_kd(
-            .clk(CLK100MHZ),
+            .clk(CLK1MHZ),
             .rst(1'b0),
             .kd(PS2_DATA),
             .kc(PS2_CLK),
