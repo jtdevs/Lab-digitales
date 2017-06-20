@@ -83,7 +83,7 @@ module driver_vga_1024x768(clk_vga, hs, vs,hc_visible,vc_visible);
 	parameter vbp  = 11'd13;      // --Vertical back porch
 	
 	
-	reg [9:0] hc, hc_next, vc, vc_next;             // --These are the Horizontal and Vertical counters    
+	reg [10:0] hc, hc_next, vc, vc_next;             // --These are the Horizontal and Vertical counters    
 	
 	assign hc_visible = ((hc < (hpixels - hfp)) && (hc > (hsc + hbp)))?(hc -(hsc + hbp)):11'd0;
 	assign vc_visible = ((vc < (vlines - vfp)) && (vc > (vsc + vbp)))?(vc - (vsc + vbp)):11'd0;
