@@ -25,18 +25,18 @@ module lab_6(
 		.clk_out1(CLK82MHZ),
 		// Status and control signals               
 		.reset(1'b0), 
-		//.locked(locked),
+		.locked(),
 		// Clock in ports
 		.clk_in1(CLK100MHZ)
-		);
-		
+	);
+	wire kbs_tot;
+    wire [7:0] data;
+    wire [2:0] data_type;
+    wire parity_error;	
 	driver_vga_1024x768 m_driver(CLK82MHZ, VGA_HS, VGA_VS, hc_visible, vc_visible);
 	kbd_ms m_kd(CLK82MHZ, 1'b0, PS2_DATA, PS2_CLK, data, data_type, kbs_tot, parity_error);
 	
-	wire kbs_tot;
-	wire [7:0] data;
-	wire [2:0] data_type;
-	wire parity_error;
+	
 	
 	
 	wire [10:0]hc_template, vc_template;
@@ -49,7 +49,7 @@ module lab_6(
 	reg [11:0]VGA_COLOR;
 	
 	wire in_sq, dr;
-	hello_world m_hw(CLK82MHZ, 1'b0, hc_visible, vc_visible, in_sq, dr);
+	hello_world_text_square m_hw(CLK82MHZ, 1'b0, hc_visible, vc_visible, in_sq, dr);
 	
 	always@(*)
 		if((hc_visible != 0) && (vc_visible != 0))
