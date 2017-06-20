@@ -13,6 +13,7 @@ module previa_6-1(
 	assign JA4 = (data_type == 3’b001); // make code
 	assign JA7 = (data_type == 3’b011); // break code
 	assign JA8 = (data == 8’h5A); // is_enter
+
 	kbd_ms m_kd(
 		.clk(CLK1MHZ),
 		.rst(1'b0),
@@ -23,4 +24,11 @@ module previa_6-1(
 		.kbs_tot(kbs_tot),
 		.parity_error()
 		);
+
+	clk_wiz_0 inst(
+		.clk_out1(CLK1MHZ),          
+		.reset(1'b0), 
+		.clk_in1(CLK100MHZ)
+		);
+
 endmodule
