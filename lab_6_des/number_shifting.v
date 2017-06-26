@@ -4,18 +4,34 @@
 //y ese modulo devuelve el numero o letra correspondiente al recuadro
 //con ese numero, cuando se apriete enter se va a correr todos los digitos un espacio a la 
 //izq para insertar este a la derecha
-
+//las salidas exe y ce tienen un pulso de duracion
 module input_handler(
+    input CLK82MHZ,
     input [2:0] x,
     input [1:0] y,
     input enter,
+    input ext_ce,
+    output ce,
+    output exe,
+    output [2:0]op,
     output [39:0] mostrar
 );
+    assign ce = ((x==3'd5)&(y==2'd2)&(enter));
+    assign exe = ((x==3'd4)&(y==2'd3)&(enter));
     wire [3:0] num;
     decode_value val_1(.x(x),.y(y),.value(num));
-    number_shifting shift_1(.enter(enter), .num(num), .mostrar(mostrar));
+    number_shifting shift_1(
+        .clk(CLK82MHZ),
+        .shift(enter&(x<=3'd3)&(y<=2'd3)), //que solo ingrese el digito si esta dentro de los cuadros que corresponden a digitos
+        .num(num),
+        .mostrar(mostrar), 
+        .reset(ce|ext_ce)//que se resetee tanto si selecciono ce en la interfaz o si la calc lo requiere
+    );
+    decode_op op_1(.x(x), .y(y), .op(op));
 endmodule
 
+//devuelve el valor del numero o letra(hex) en la casilla en que se encuentra el cursor
+//lo devuelve SIEMPRE, no solo cuando se aprieta enter, ojo con eso
 module decode_value(
     input [2:0] x,
     input [1:0] y,
@@ -47,33 +63,93 @@ module decode_value(
     end
 endmodule
 
+//devuelve el valor de la operacion en la casilla en que se encuentra el cursor
+//lo devuelve SIEMPRE, no solo cuando se aprieta enter, ojo con eso
+module decode_op(
+    input [2:0] x,
+    input [1:0] y,
+    output reg [2:0] op
+);
+    wire [4:0] coord;
+    assign coord = {x,y};
+    always@(*)
+    begin
+        case(coord)
+            5'b10000: op = 3'd1;//+
+            5'b10100: op = 3'd2;//-
+            5'b10001: op = 3'd3;//*
+            5'b10010: op = 3'd4;//&
+            5'b10101: op = 3'd5;//|
+            default: op = 3'd0;//devuelve 0 si no es una operacion
+        endcase
+    end
+endmodule
+
 module number_shifting(
-    input enter,
+    input clk,
+    input shift,
     input [3:0] num,
+    input reset,
     output [39:0] mostrar
     );
     
     reg [3:0] digit0,digit1,digit2,digit3,digit4,digit5,digit6,digit7,digit8,digit9;
+    reg [3:0] digit0_next,digit1_next,digit2_next,digit3_next,digit4_next,digit5_next,digit6_next,digit7_next,digit8_next,digit9_next;
+
+    always@(posedge clk)
+    begin
+        if(reset)
+                {digit9,digit8,digit7,digit6,digit5,digit4,digit3,digit2,digit1,digit0} = 40'd0;
+        else
+        begin
+            digit0 <= digit0_next;
+            digit1 <= digit1_next;
+            digit2 <= digit2_next;
+            digit3 <= digit3_next;
+            digit4 <= digit4_next;
+            digit5 <= digit5_next;
+            digit6 <= digit6_next;
+            digit7 <= digit7_next;
+            digit8 <= digit8_next;
+            digit9 <= digit9_next;
+        end
+    end
+    
+    always@(*)
+    begin
+        if(shift)
+        begin
+            digit9_next = digit8;
+            digit8_next = digit7;
+            digit7_next = digit6;
+            digit6_next = digit5;
+            digit5_next = digit4;
+            digit4_next = digit3;
+            digit3_next = digit2;
+            digit2_next = digit1;
+            digit1_next = digit0;
+            digit0_next = num;
+        end
+        else
+        begin
+            digit9_next = digit9;
+            digit8_next = digit8;
+            digit7_next = digit7;
+            digit6_next = digit6;
+            digit5_next = digit5;
+            digit4_next = digit4;
+            digit3_next = digit3;
+            digit2_next = digit2;
+            digit1_next = digit1;
+            digit0_next = digit0;
+        end
+    end
     
     assign mostrar = {digit9,digit8,digit7,digit6,digit5,digit4,digit3,digit2,digit1,digit0};
     
-    
-    always@(posedge enter)
-    begin
-        digit9 = digit8;
-        digit8 = digit7;
-        digit7 = digit6;
-        digit6 = digit5;
-        digit5 = digit4;
-        digit4 = digit3;
-        digit3 = digit2;
-        digit2 = digit1;
-        digit1 = digit0;
-        digit0 = num;
-    end
 endmodule
 
-//esta wea transforma un numero de 40 bits (10 digitos de 4 bits) en una cadena de 10 codigos
+//esta weaita genuina transforma un numero de 40 bits (10 digitos de 4 bits) en una cadena de 10 codigos
 //de 8 bits que corresponden a cada digito del visor
 module num2line(
     input [39:0]num,

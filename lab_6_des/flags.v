@@ -1,3 +1,5 @@
+//cada bit de la entrada flag controla si aparece o no el texto correspondiente en pantalla
+//se usa igual que los leds casi
 module flags(
     input CLK82MHZ,
     input [3:0] flags,

@@ -11,10 +11,11 @@ module disp_pix #(
     input CLK82MHZ,
     input [10:0] hc_visible,
     input [10:0] vc_visible,
+    input hd,
     input [79:0] mostrar,
     output dr
     );
-    wire dr0,dr1,dr2,dr3,dr4,dr5,dr6,dr7,dr8,dr9,dr10,dr11,dr12,dr13,dr14,dr15,dr16,dr17,dr18,dr19,dr20,dr21,dr22,dr23,dr24,dr25,dr26;
+    wire dr0,dr1,dr2,dr3,dr4,dr5,dr6,dr7,dr8,dr9,dr10,dr11,dr12,dr13,dr14,dr15,dr16,dr17,dr18,dr19,dr20,dr21,dr22,dr23,dr24,dr25,dr26,dr27;
     show_one_char #(11'd244, 11'd206) show_one_char_inst0(CLK82MHZ, 1'b0, hc_visible, vc_visible, "0",, dr0);
     show_one_char #(11'd344, 11'd206) show_one_char_inst1(CLK82MHZ, 1'b0, hc_visible, vc_visible, "1",, dr1);
     show_one_char #(11'd444, 11'd206) show_one_char_inst2(CLK82MHZ, 1'b0, hc_visible, vc_visible, "2",, dr2);
@@ -41,8 +42,9 @@ module disp_pix #(
     show_one_line #(CUADRILLA_XI+410, 74, 3, 3'd5) show_one_line_inst23(CLK82MHZ, 1'b0, hc_visible, vc_visible, {8'd104,8'd101,8'd120},, dr23);//hex
     show_one_line #(CUADRILLA_XI+410, 130, 3, 3'd5) show_one_line_inst24(CLK82MHZ, 1'b0, hc_visible, vc_visible, {8'd100,8'd101,8'd120},, dr24);//dex
     show_one_char #(CUADRILLA_XI+535, 70) show_one_char_inst25(CLK82MHZ, 1'b0, hc_visible, vc_visible, 8'd130,, dr25);
+    show_one_char #(CUADRILLA_XI+535, 126) show_one_char_inst27(CLK82MHZ, 1'b0, hc_visible, vc_visible, 8'd130,, dr27);
     show_one_line #(CUADRILLA_XI+10, 90, 10, 3'd5) show_one_line_inst26(CLK82MHZ, 1'b0, hc_visible, vc_visible, mostrar,, dr26);
-    assign dr = dr0|dr1|dr2|dr3|dr4|dr5|dr6|dr7|dr8|dr9|dr10|dr11|dr12|dr13|dr14|dr15|dr16|dr17|dr18|dr19|dr20|dr21|dr22|dr23|dr24|dr25|dr26;
+    assign dr = dr0|dr1|dr2|dr3|dr4|dr5|dr6|dr7|dr8|dr9|dr10|dr11|dr12|dr13|dr14|dr15|dr16|dr17|dr18|dr19|dr20|dr21|dr22|dr23|dr24|(dr25&hd)|dr26|(dr27&!hd);
 endmodule
 
 /**
