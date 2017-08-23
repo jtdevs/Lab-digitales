@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2016.4 (64-bit)
+# SW Build 1756540 on Mon Jan 23 19:11:23 MST 2017
+# IP Build 1755317 on Mon Jan 23 20:30:07 MST 2017
+# Start of session at: Tue Aug 22 23:30:33 2017
+# Process ID: 4660
+# Current directory: C:/Users/JavierTorres/Documents/GitHub/proyecto_final/proyecto_final.runs/synth_1
+# Command line: vivado.exe -log top_module.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_module.tcl
+# Log file: C:/Users/JavierTorres/Documents/GitHub/proyecto_final/proyecto_final.runs/synth_1/top_module.vds
+# Journal file: C:/Users/JavierTorres/Documents/GitHub/proyecto_final/proyecto_final.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source top_module.tcl -notrace
